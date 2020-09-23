@@ -17,17 +17,23 @@ package io.netty.channel.uring;
 
 import io.netty.util.internal.PlatformDependent;
 
+/**
+ * struct iovec {
+ *     void  *iov_base;    // Starting address
+ *     size_t iov_len;     // Number of bytes to transfer
+ * };
+ */
 final class Iov {
 
     private Iov() { }
 
     static void write(long iovAddress, long bufferAddress, int length) {
-        PlatformDependent.putLong(iovAddress + Native.IOVEC_OFFSETOF_IOV_BASE, bufferAddress);
-
         if (Native.SIZEOF_SIZE_T == 4) {
+            PlatformDependent.putInt(iovAddress + Native.IOVEC_OFFSETOF_IOV_BASE, (int) bufferAddress);
             PlatformDependent.putInt(iovAddress + Native.IOVEC_OFFSETOF_IOV_LEN, length);
         } else {
             assert Native.SIZEOF_SIZE_T == 8;
+            PlatformDependent.putLong(iovAddress + Native.IOVEC_OFFSETOF_IOV_BASE, (int) bufferAddress);
             PlatformDependent.putLong(iovAddress + Native.IOVEC_OFFSETOF_IOV_LEN, length);
         }
     }
