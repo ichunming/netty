@@ -253,8 +253,6 @@ abstract class AbstractIOUringChannel extends AbstractChannel implements UnixCha
         }
     }
 
-    //deregister
-    // Channel/ChannelHandlerContext.read() was called
     @Override
     protected void doBeginRead() {
         if ((ioState & POLL_IN_SCHEDULED) == 0) {
@@ -604,7 +602,7 @@ abstract class AbstractIOUringChannel extends AbstractChannel implements UnixCha
         }
 
         /**
-         * Called once a write completed and we should remove message(s) from the {@link ChannelOutboundBuffer}-
+         * Called once a write completed and we should remove message(s) from the {@link ChannelOutboundBuffer}
          */
         protected void removeFromOutboundBuffer(ChannelOutboundBuffer outboundBuffer, int bytes) {
             outboundBuffer.removeBytes(bytes);
